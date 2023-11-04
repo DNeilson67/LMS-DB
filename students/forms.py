@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student
+from .models import Course, Major, Student
 from .models import Teacher
 
 class StudentForm(forms.ModelForm):
@@ -36,4 +36,33 @@ class TeacherForm(forms.ModelForm):
             'full_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email' : forms.TextInput(attrs={'class':'form-control'}),
             'courses' : forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class MajorForm(forms.ModelForm):
+    class Meta:
+        model = Major
+        fields = ['major_id', 'major_name']
+        labels = {
+            'major_id' : 'MajorID',
+            'major_name' : 'Major Name',
+        }
+        widgets = {
+            'major_id' : forms.TextInput(attrs={'class':'form-control'}),
+            'major_name' : forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['course_id', 'course_name', 'scu']
+        labels = {
+            'course_id' : 'CourseID',
+            'course_name' : 'Course Name',
+            'scu': 'SCU'
+        }
+        widgets = {
+            'course_id' : forms.NumberInput(attrs={'class':'form-control'}),
+            'course_name' : forms.TextInput(attrs={'class':'form-control'}),
+            'scu':forms.NumberInput(attrs={'class':'form-control'}),
         }

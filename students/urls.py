@@ -13,5 +13,13 @@ urlpatterns = [
     path('<int:teacher_id>', views.view_teacher, name = 'view_teacher'),
     path('add_teacher/', views.add_teacher, name = 'add_teacher'),
     path('edit_teacher/<int:teacher_id>/', views.edit_teacher, name = 'edit_teacher'),
-    path('delete_teacher/<int:teacher_id>/', views.delete_teacher, name = 'delete_teacher')
+    path('delete_teacher/<int:teacher_id>/', views.delete_teacher, name = 'delete_teacher'),
+    #Major View
+    path('add_major/', views.add_major, name = 'add_major'),
+    path('delete_major/<slug:major_id>/', views.delete_major, name = 'delete_major'),
+    #Course View
+    path('<int:course_id>', views.view_course, name = 'view_course'),
+    path('add_course/', views.add_course, name = 'add_course'),
+    path('edit_course/<int:course_id>/', views.edit_course, name = 'edit_course'),
+    path('delete_course/<int:course_id>/', views.delete_course, name = 'delete_course')
 ]
