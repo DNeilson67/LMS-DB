@@ -2,17 +2,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import Course, Student
-from .models import Teacher
-from .models import Major
-from .forms import CourseForm, MajorForm, StudentForm, TeacherForm
+from .models import Course, Student, Teacher, Major, Major_Course
+from .forms import CourseForm, Major_CourseForm, MajorForm, StudentForm, TeacherForm
 
 def index(request):
     return render(request, 'students/index.html', {
         'students': Student.objects.all(),
         'teachers': Teacher.objects.all(),
         'majors':Major.objects.all(),
-        'courses':Course.objects.all()
+        'courses':Course.objects.all(),
+        'major_courses': Major_Course.objects.all()
+        
     })
 
 # Student Data
@@ -162,11 +162,9 @@ def delete_major(request, major_id):
     return HttpResponseRedirect(reverse("index"))
 
 ## Course
-
 def view_course(request, course_id):
     course = Course.objects.get(pk = course_id)
     return HttpResponseRedirect(reverse('index'))
-
    
 def edit_course(request, course_id):
     if request.method == 'POST':
@@ -191,10 +189,12 @@ def add_course(request):
         if form.is_valid():
             new_course_name= form.cleaned_data['course_name']
             new_scu = form.cleaned_data['scu']
+            new_sem = form.cleaned_data['sem']
 
         new_course = Course(
             course_name = new_course_name,
-            scu = new_scu
+            scu = new_scu,
+            sem = new_sem
         )
 
         new_course.save()
@@ -214,4 +214,59 @@ def delete_course(request, course_id):
     if request.method == 'POST':
         course = Course.objects.get(pk=course_id)
         course.delete()
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("index")) 
+
+
+## Major_Course
+def view_major_course(request, major_id, course_id):
+    course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
+    return HttpResponseRedirect(reverse('index'))
+   
+def edit_major_course(request, major_id, course_id):
+    if request.method == 'POST':
+        student = Major_Course.objects.get(major_id = major_id, course_id = course_id)
+        form = Major_CourseForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+        return render(request, 'students/edit.html', {
+            'form':Major_CourseForm(),
+            'success':True
+        })
+    else:
+        student = Major_Course.objects.get(major_id = major_id, course_id = course_id)
+        form = Major_CourseForm(instance=student)
+    return render(request, 'students/edit.html', {
+        'form': form
+    })
+
+def add_major_course(request):
+    if request.method == 'POST':
+        form = Major_CourseForm(request.POST)
+        if form.is_valid():
+            new_course_id= form.cleaned_data['course_id']
+            new_major_id = form.cleaned_data['major_id']
+
+        new_major_course = Major_Course(
+            major_id = new_major_id,
+            course_id = new_course_id,
+        )
+
+        new_major_course.save()
+
+        return render(request, 'students/add_major_course.html', {
+            'form':Major_CourseForm(),
+            'success':True
+        })
+    
+    else:
+        form = Major_CourseForm()
+    return render(request, 'students/add_major_course.html', {
+        'form': Major_CourseForm()
+    })
+
+def delete_major_course(request, major_id, course_id):
+    if request.method == 'POST':
+        course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
+        course.delete()
+    return HttpResponseRedirect(reverse("index")) 
+

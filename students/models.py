@@ -5,7 +5,7 @@ class Student(models.Model):
     student_id = models.BigAutoField(primary_key=True, auto_created=True, serialize=False)
     full_name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
-    major = models.CharField(max_length=50)
+    major = models.ForeignKey("major", on_delete=models.SET_NULL, null = True)
     gpa = models.FloatField()
 
     def __str__(self) -> str:
@@ -37,7 +37,15 @@ class Major(models.Model):
 class Course(models.Model):
     course_id = models.BigAutoField(primary_key=True, serialize=False)
     course_name = models.CharField(max_length=50)
-    scu = models.PositiveSmallIntegerField(max_length=1)
+    scu = models.PositiveSmallIntegerField()
+    sem = models.PositiveSmallIntegerField()
 
     def __str__(self) -> str:
         return f"{self.course_id}"
+
+class Major_Course(models.Model):
+    major_id = models.ForeignKey("major", on_delete=models.SET_NULL, null= True)
+    course_id = models.ForeignKey("course", on_delete=models.SET_NULL, null= True)
+
+    def __str__(self) -> str:
+        return f"{self.major_id}"
