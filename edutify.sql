@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Nov 2023 pada 07.03
+-- Waktu pembuatan: 05 Nov 2023 pada 17.07
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -205,7 +205,12 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (23, '2023-11-03 13:46:44.651658', '1', '1', 2, '[]', 10, 1),
 (24, '2023-11-03 13:47:52.014072', 'COMP', 'COMP', 2, '[{\"changed\": {\"fields\": [\"Major id\"]}}]', 10, 1),
 (25, '2023-11-03 13:47:56.812746', '1', '1', 2, '[]', 10, 1),
-(26, '2023-11-03 13:48:00.777302', '1', '1', 3, '', 10, 1);
+(26, '2023-11-03 13:48:00.777302', '1', '1', 3, '', 10, 1),
+(27, '2023-11-05 07:03:07.333956', '4', '4', 1, '[{\"added\": {}}]', 8, 1),
+(28, '2023-11-05 14:35:27.437612', '3', '3', 2, '[{\"changed\": {\"fields\": [\"Courses\"]}}]', 8, 1),
+(29, '2023-11-05 14:35:32.250139', '3', '3', 2, '[]', 8, 1),
+(30, '2023-11-05 14:47:01.565214', '4', '4', 1, '[{\"added\": {}}]', 8, 1),
+(31, '2023-11-05 14:47:06.638332', '4', '4', 2, '[]', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -283,7 +288,24 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (27, 'students', '0008_alter_major_major_id', '2023-11-03 13:45:59.344494'),
 (28, 'students', '0009_alter_student_major', '2023-11-04 03:35:41.931906'),
 (29, 'students', '0010_course_sem_alter_student_major', '2023-11-04 06:06:00.665531'),
-(30, 'students', '0011_alter_course_scu_major_course', '2023-11-04 13:56:00.282993');
+(30, 'students', '0011_alter_course_scu_major_course', '2023-11-04 13:56:00.282993'),
+(31, 'students', '0012_alter_major_course_course_id_and_more', '2023-11-05 06:53:35.508525'),
+(32, 'students', '0013_alter_teacher_courses', '2023-11-05 06:53:35.770982'),
+(33, 'students', '0014_alter_teacher_courses', '2023-11-05 06:53:35.967784'),
+(34, 'students', '0015_delete_major_course', '2023-11-05 11:59:46.129619'),
+(35, 'students', '0016_major_course', '2023-11-05 12:32:21.390597'),
+(36, 'students', '0014_remove_teacher_courses_teacher_courses', '2023-11-05 13:53:23.591817'),
+(37, 'students', '0015_remove_teacher_courses_teacher_courses', '2023-11-05 13:53:23.759103'),
+(38, 'students', '0016_remove_teacher_courses_teacher_courses', '2023-11-05 13:58:24.316987'),
+(39, 'students', '0017_remove_teacher_courses_teacher_courses', '2023-11-05 13:58:24.405508'),
+(40, 'students', '0013_remove_teacher_courses_teacher_courses', '2023-11-05 14:14:07.941458'),
+(41, 'students', '0017_teacher_major', '2023-11-05 14:49:40.834240'),
+(42, 'students', '0018_rename_courses_teacher_course_remove_teacher_major', '2023-11-05 14:58:26.481212'),
+(43, 'students', '0019_rename_course_teacher_courses', '2023-11-05 15:01:45.546065'),
+(44, 'students', '0020_remove_teacher_courses_teacher_courses', '2023-11-05 15:04:00.954919'),
+(45, 'students', '0021_rename_courses_teacher_course', '2023-11-05 15:04:00.964429'),
+(46, 'students', '0022_rename_course_teacher_courses', '2023-11-05 15:04:00.973929'),
+(47, 'students', '0023_remove_teacher_courses_teacher_courses', '2023-11-05 15:04:38.707049');
 
 -- --------------------------------------------------------
 
@@ -325,7 +347,9 @@ INSERT INTO `students_course` (`course_id`, `course_name`, `scu`, `sem`) VALUES
 (2, 'Data Structures', 6, 2),
 (3, 'Algorithm and Programming', 6, 1),
 (4, 'Design Studies I', 8, 3),
-(5, 'Academic English 1', 3, 1);
+(5, 'Academic English 1', 3, 1),
+(6, 'Linear Algebra', 2, 2),
+(7, 'Database Technology', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -364,17 +388,9 @@ INSERT INTO `students_major` (`major_id`, `major_name`) VALUES
 
 CREATE TABLE `students_major_course` (
   `id` bigint(20) NOT NULL,
-  `course_id_id` bigint(20) NOT NULL,
-  `major_id_id` varchar(4) NOT NULL
+  `course_id_id` bigint(20) DEFAULT NULL,
+  `major_id_id` varchar(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `students_major_course`
---
-
-INSERT INTO `students_major_course` (`id`, `course_id_id`, `major_id_id`) VALUES
-(4, 2, 'COMP'),
-(5, 4, 'GDNM');
 
 -- --------------------------------------------------------
 
@@ -428,9 +444,35 @@ INSERT INTO `students_student` (`student_id`, `full_name`, `email`, `major_id`, 
 CREATE TABLE `students_teacher` (
   `teacher_id` bigint(20) NOT NULL,
   `full_name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `courses` varchar(50) NOT NULL
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `students_teacher`
+--
+
+INSERT INTO `students_teacher` (`teacher_id`, `full_name`, `email`) VALUES
+(6, 'Raymond Bahana', 'r.bahana@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `students_teacher_courses`
+--
+
+CREATE TABLE `students_teacher_courses` (
+  `id` bigint(20) NOT NULL,
+  `teacher_id` bigint(20) NOT NULL,
+  `course_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `students_teacher_courses`
+--
+
+INSERT INTO `students_teacher_courses` (`id`, `teacher_id`, `course_id`) VALUES
+(3, 6, 6),
+(4, 6, 7);
 
 --
 -- Indexes for dumped tables
@@ -543,6 +585,14 @@ ALTER TABLE `students_teacher`
   ADD PRIMARY KEY (`teacher_id`);
 
 --
+-- Indeks untuk tabel `students_teacher_courses`
+--
+ALTER TABLE `students_teacher_courses`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `students_teacher_courses_teacher_id_course_id_fe869533_uniq` (`teacher_id`,`course_id`),
+  ADD KEY `students_teacher_cou_course_id_4ea288a4_fk_students_` (`course_id`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -586,7 +636,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT untuk tabel `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `django_content_type`
@@ -598,7 +648,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT untuk tabel `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT untuk tabel `students_course`
@@ -610,7 +660,7 @@ ALTER TABLE `students_course`
 -- AUTO_INCREMENT untuk tabel `students_major_course`
 --
 ALTER TABLE `students_major_course`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `students_student`
@@ -622,7 +672,13 @@ ALTER TABLE `students_student`
 -- AUTO_INCREMENT untuk tabel `students_teacher`
 --
 ALTER TABLE `students_teacher`
-  MODIFY `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `students_teacher_courses`
+--
+ALTER TABLE `students_teacher_courses`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -674,6 +730,13 @@ ALTER TABLE `students_major_course`
 --
 ALTER TABLE `students_student`
   ADD CONSTRAINT `students_student_major_id_1e02fe7d_fk_students_major_major_id` FOREIGN KEY (`major_id`) REFERENCES `students_major` (`major_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `students_teacher_courses`
+--
+ALTER TABLE `students_teacher_courses`
+  ADD CONSTRAINT `students_teacher_cou_course_id_4ea288a4_fk_students_` FOREIGN KEY (`course_id`) REFERENCES `students_course` (`course_id`),
+  ADD CONSTRAINT `students_teacher_cou_teacher_id_911c9d97_fk_students_` FOREIGN KEY (`teacher_id`) REFERENCES `students_teacher` (`teacher_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

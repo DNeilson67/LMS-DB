@@ -12,7 +12,6 @@ def index(request):
         'majors':Major.objects.all(),
         'courses':Course.objects.all(),
         'major_courses': Major_Course.objects.all()
-        
     })
 
 # Student Data
@@ -83,17 +82,7 @@ def add_teacher(request):
     if request.method == 'POST':
         form = TeacherForm(request.POST)
         if form.is_valid():
-            new_full_name = form.cleaned_data['full_name']
-            new_email= form.cleaned_data['email']
-            new_courses= form.cleaned_data['courses']
-
-        new_teacher = Teacher(
-            full_name = new_full_name,
-            email = new_email,
-            courses = new_courses
-        )
-
-        new_teacher.save()
+            form.save()
 
         return render(request, 'students/add_teacher.html', {
             'form':TeacherForm(),
@@ -219,7 +208,7 @@ def delete_course(request, course_id):
 
 ## Major_Course
 def view_major_course(request, major_id, course_id):
-    course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
+    major_course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
     return HttpResponseRedirect(reverse('index'))
    
 def edit_major_course(request, major_id, course_id):
@@ -243,15 +232,7 @@ def add_major_course(request):
     if request.method == 'POST':
         form = Major_CourseForm(request.POST)
         if form.is_valid():
-            new_course_id= form.cleaned_data['course_id']
-            new_major_id = form.cleaned_data['major_id']
-
-        new_major_course = Major_Course(
-            major_id = new_major_id,
-            course_id = new_course_id,
-        )
-
-        new_major_course.save()
+            form.save
 
         return render(request, 'students/add_major_course.html', {
             'form':Major_CourseForm(),

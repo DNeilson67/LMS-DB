@@ -36,8 +36,11 @@ class TeacherForm(forms.ModelForm):
             'teacher_id' : forms.NumberInput(attrs={'class':'form-control'}),
             'full_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email' : forms.TextInput(attrs={'class':'form-control'}),
-            'courses' : forms.Select(attrs={'class':'form-control'}),
         }
+    courses = forms.ModelMultipleChoiceField(
+            queryset= Course.objects.all(),
+            widget=forms.CheckboxSelectMultiple
+    )
 
 class MajorForm(forms.ModelForm):
     class Meta:

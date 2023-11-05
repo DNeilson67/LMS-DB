@@ -170,7 +170,10 @@
                 <td>{{ i.teacher_id}}</td>
                 <td>{{ i.full_name }}</td>
                 <td>{{ i.email }}</td>
-                <td>{{ i.courses }}</td>
+                <td>{% for j in i.courses.all %}
+                {{j.course_name}},
+                {%endfor%}
+                </td>      
                 <td><button type="button" class="btn btn-info me-1" href="{% url 'view_teacher' i.teacher_id %}"
                     data-bs-toggle="modal" data-bs-target="#myModalTeacher{{i.teacher_id}}"><i
                       class="fa-sharp fa-solid fa-circle-info"></i></button>
@@ -195,7 +198,13 @@
                         <ul class="list-unstyled">
                           <li>EduTeachID: <strong>{{i.teacher_id}}</strong></li>
                           <li>Email: <strong>{{i.email}}</strong></li>
-                          <li>Courses: <strong>{{i.courses}}</strong></li>
+                          <li>Courses: <strong>
+                <ul>
+                  {% for j in i.courses.all %}
+                  <li>{{j.course_name}}</li>
+                  {%endfor%}
+                </ul>
+                </strong></li>
                         </ul>
                       </div>
                       <div class="modal-footer">
@@ -403,7 +412,7 @@
     </div>
      <!-- Course Tab  -->
      <div class="tab-pane fade" id="major_courseTab" role="tabpanel">
-      {% if major_courses %}
+      {% if teacher_courses %}
       <div class="card bg-light mb-3" id="coursesCard">
         <div class="card-header d-flex justify-content-between">
           <div>
@@ -424,14 +433,14 @@
               </tr>
             </thead>
             <tbody>
-              {% for i in major_courses%}
+              {% for i in teacher_courses%}
               <tr>
-                <td>{{ i.major_id}}</td>
+                <td>{{ i.teacher_id}}</td>
                 <td>{{ i.course_id}}</td>
-                <td>{{ i.major_id.major_name}}</td>
+                <td>{{ i.teacher_id.major_name}}</td>
                 <td>{{ i.course_id.course_name}}</td>
                 <td><button type="button" class="btn btn-info me-1" href="{% url 'view_major_course' i.major_id i.course_id %}"
-                    data-bs-toggle="modal" data-bs-target="#myModalMajorCourse{{i.id}}"><i
+                    data-bs-toggle="modal" data-bs-target="#myModalMajorCourse{{i.major_id}}{{i.course_id}}"><i
                       class="fa-sharp fa-solid fa-circle-info"></i></button>
                   <a class="btn btn-warning me-1" href="{% url 'edit_major_course' i.major_id i.course_id%}"><i
                       class="fa-sharp fa-solid fa-pen-to-square"></i></a>
@@ -439,7 +448,7 @@
                     data-bs-target="#deleteModalMajorCourse{{i.course_id}}"><i
                       class="fa-sharp fa-solid fa-trash"></i></button>
                 </td>
-                <div class="modal fade" id="myModalMajorCourse{{i.course_id}}" tabindex="-1"
+                <div class="modal fade" id="myModalMajorCourse{{i.major_id}}{{i.course_id}}" tabindex="-1"
                   aria-labelledby="myModalLabel10" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">

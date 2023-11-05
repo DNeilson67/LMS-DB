@@ -23,7 +23,7 @@ urlpatterns = [
     path('edit_course/<int:course_id>/', views.edit_course, name = 'edit_course'),
     path('delete_course/<int:course_id>/', views.delete_course, name = 'delete_course'),
     #Major_Course View
-    path('view_major_course/<slug:major_id>/<int:course_id>', views.view_major_course, name = 'view_major_course'),
+    path('<slug:major_id>/<int:course_id>', views.view_major_course, name = 'view_major_course'),
     path('add_major_course/', views.add_major_course, name = 'add_major_course'),
     path('edit_major_course/<slug:major_id>/<int:course_id>', views.edit_major_course, name = 'edit_major_course'),
     path('delete_major_course/<slug:major_id>/<int:course_id>', views.delete_major_course, name = 'delete_major_course')
