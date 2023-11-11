@@ -6,21 +6,26 @@ class StudentForm(forms.ModelForm):
     class Meta:
         majorChoices = Major.objects.all()
         model = Student
-        fields = ['student_id', 'full_name', 'email', 'major','gpa']
+        fields = ['student_id', 'full_name', 'email', 'major','gpa','courses']
         labels = {
             'student_id' : 'EduID',
             'full_name' : 'Name',
             'email' : 'Email',
             'major' : 'Major',
-            'gpa'   : 'GPA'
+            'gpa'   : 'GPA',
+            'courses':'Courses'
         }
         widgets = {
             'student_id' : forms.NumberInput(attrs={'class':'form-control'}),
             'full_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email' : forms.TextInput(attrs={'class':'form-control'}),
             'major' : forms.Select(choices = majorChoices),
-            'gpa'   : forms.NumberInput(attrs={'class':'form-control'})
+            'gpa'   : forms.NumberInput(attrs={'class':'form-control'})            
         }
+    courses = forms.ModelMultipleChoiceField(
+            queryset= Course.objects.all(),
+            widget=forms.CheckboxSelectMultiple
+        )
 
 class TeacherForm(forms.ModelForm):
     class Meta:
