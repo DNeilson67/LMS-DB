@@ -24,19 +24,7 @@ def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
         if form.is_valid():
-            new_full_name = form.cleaned_data['full_name']
-            new_email= form.cleaned_data['email']
-            new_major= form.cleaned_data['major']
-            new_gpa = form.cleaned_data['gpa']
-
-        new_student = Student(
-            full_name = new_full_name,
-            email = new_email,
-            major = new_major,
-            gpa = new_gpa
-        )
-
-        new_student.save()
+            form.save()
 
         return render(request, 'students/add_student.html', {
             'form':StudentForm(),

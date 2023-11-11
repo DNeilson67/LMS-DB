@@ -40,6 +40,7 @@ class Student(models.Model):
     email = models.CharField(max_length=50)
     major = models.ForeignKey("major", on_delete=models.SET_NULL, null = True)
     gpa = models.FloatField()
+    courses = models.ManyToManyField(Course)
 
     def __str__(self) -> str:
         return f"""
