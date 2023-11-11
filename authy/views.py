@@ -20,14 +20,14 @@ from django.urls import resolve
 
 # Create your views here.
 
-def SideNavInfo(request):
-	user = request.user
-	nav_profile = None
+# def SideNavInfo(request):
+# 	user = request.user
+# 	nav_profile = None
 
-	if user.is_authenticated:
-		nav_profile = Profile.objects.get(user=user)
+# 	if user.is_authenticated:
+# 		nav_profile = Profile.objects.get(user=user)
 
-	return {'nav_profile': nav_profile}
+# 	return {'nav_profile': nav_profile}
 
 
 def UserProfile(request, username):
@@ -83,7 +83,7 @@ def PasswordChangeDone(request):
 	return render(request, 'change_password_done.html')
 
 
-@login_required
+# @login_required
 def EditProfile(request):
 	user = request.user.id
 	profile = Profile.objects.get(user__id=user)
