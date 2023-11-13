@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Nov 2023 pada 17.07
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Generation Time: Nov 11, 2023 at 10:02 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_group`
+-- Table structure for table `authy_profile`
+--
+
+CREATE TABLE `authy_profile` (
+  `id` bigint(20) NOT NULL,
+  `location` varchar(50) DEFAULT NULL,
+  `url` varchar(80) DEFAULT NULL,
+  `profile_info` longtext DEFAULT NULL,
+  `created` date NOT NULL,
+  `picture` varchar(100) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `banner` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `authy_profile`
+--
+
+INSERT INTO `authy_profile` (`id`, `location`, `url`, `profile_info`, `created`, `picture`, `user_id`, `banner`) VALUES
+(1, NULL, NULL, NULL, '2023-11-11', '', 2, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_group`
 --
 
 CREATE TABLE `auth_group` (
@@ -35,7 +59,7 @@ CREATE TABLE `auth_group` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_group_permissions`
+-- Table structure for table `auth_group_permissions`
 --
 
 CREATE TABLE `auth_group_permissions` (
@@ -47,7 +71,7 @@ CREATE TABLE `auth_group_permissions` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_permission`
+-- Table structure for table `auth_permission`
 --
 
 CREATE TABLE `auth_permission` (
@@ -58,7 +82,7 @@ CREATE TABLE `auth_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `auth_permission`
+-- Dumping data for table `auth_permission`
 --
 
 INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
@@ -105,12 +129,16 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (41, 'Can add major_ course', 11, 'add_major_course'),
 (42, 'Can change major_ course', 11, 'change_major_course'),
 (43, 'Can delete major_ course', 11, 'delete_major_course'),
-(44, 'Can view major_ course', 11, 'view_major_course');
+(44, 'Can view major_ course', 11, 'view_major_course'),
+(45, 'Can add profile', 12, 'add_profile'),
+(46, 'Can change profile', 12, 'change_profile'),
+(47, 'Can delete profile', 12, 'delete_profile'),
+(48, 'Can view profile', 12, 'view_profile');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_user`
+-- Table structure for table `auth_user`
 --
 
 CREATE TABLE `auth_user` (
@@ -128,16 +156,17 @@ CREATE TABLE `auth_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `auth_user`
+-- Dumping data for table `auth_user`
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$600000$HiJdfh67tLzZlqkf754Kun$nUOzhhTAF3WWg2hK54e2NEk26iHl3Bo0zG1KwbEwJqw=', '2023-10-31 08:07:38.928687', 1, 'admin', '', '', 'samsungneilson67@gmail.com', 1, 1, '2023-10-31 08:06:10.364759');
+(1, 'pbkdf2_sha256$600000$HiJdfh67tLzZlqkf754Kun$nUOzhhTAF3WWg2hK54e2NEk26iHl3Bo0zG1KwbEwJqw=', '2023-10-31 08:07:38.928687', 1, 'admin', '', '', 'samsungneilson67@gmail.com', 1, 1, '2023-10-31 08:06:10.364759'),
+(2, 'pbkdf2_sha256$600000$DyDlqxXRERqA9v887fGH7e$SdjkN+h0qbaKTor70e8y6pIJDJuGpPO5lZfYGcx5TEE=', '2023-11-11 08:00:51.438172', 0, 'DNeilson', '', '', 'davin.neilson@binus.ac.id', 0, 1, '2023-11-11 08:00:30.056930');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_user_groups`
+-- Table structure for table `auth_user_groups`
 --
 
 CREATE TABLE `auth_user_groups` (
@@ -149,7 +178,7 @@ CREATE TABLE `auth_user_groups` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `auth_user_user_permissions`
+-- Table structure for table `auth_user_user_permissions`
 --
 
 CREATE TABLE `auth_user_user_permissions` (
@@ -161,7 +190,7 @@ CREATE TABLE `auth_user_user_permissions` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `django_admin_log`
+-- Table structure for table `django_admin_log`
 --
 
 CREATE TABLE `django_admin_log` (
@@ -176,7 +205,7 @@ CREATE TABLE `django_admin_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `django_admin_log`
+-- Dumping data for table `django_admin_log`
 --
 
 INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`, `action_flag`, `change_message`, `content_type_id`, `user_id`) VALUES
@@ -215,7 +244,7 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `django_content_type`
+-- Table structure for table `django_content_type`
 --
 
 CREATE TABLE `django_content_type` (
@@ -225,7 +254,7 @@ CREATE TABLE `django_content_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `django_content_type`
+-- Dumping data for table `django_content_type`
 --
 
 INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
@@ -233,6 +262,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (3, 'auth', 'group'),
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
+(12, 'authy', 'profile'),
 (5, 'contenttypes', 'contenttype'),
 (6, 'sessions', 'session'),
 (9, 'students', 'course'),
@@ -244,7 +274,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `django_migrations`
+-- Table structure for table `django_migrations`
 --
 
 CREATE TABLE `django_migrations` (
@@ -255,7 +285,7 @@ CREATE TABLE `django_migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `django_migrations`
+-- Dumping data for table `django_migrations`
 --
 
 INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
@@ -305,12 +335,18 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (44, 'students', '0020_remove_teacher_courses_teacher_courses', '2023-11-05 15:04:00.954919'),
 (45, 'students', '0021_rename_courses_teacher_course', '2023-11-05 15:04:00.964429'),
 (46, 'students', '0022_rename_course_teacher_courses', '2023-11-05 15:04:00.973929'),
-(47, 'students', '0023_remove_teacher_courses_teacher_courses', '2023-11-05 15:04:38.707049');
+(47, 'students', '0023_remove_teacher_courses_teacher_courses', '2023-11-05 15:04:38.707049'),
+(48, 'students', '0024_student_courses', '2023-11-08 13:56:14.752864'),
+(49, 'authy', '0001_initial', '2023-11-11 06:25:02.273095'),
+(50, 'authy', '0002_alter_profile_id', '2023-11-11 06:25:02.306610'),
+(51, 'authy', '0003_remove_profile_banner', '2023-11-11 07:43:38.469209'),
+(52, 'students', '0002_student_courses', '2023-11-11 07:43:58.731733'),
+(53, 'authy', '0004_profile_banner', '2023-11-11 07:44:21.996494');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `django_session`
+-- Table structure for table `django_session`
 --
 
 CREATE TABLE `django_session` (
@@ -320,16 +356,16 @@ CREATE TABLE `django_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `django_session`
+-- Dumping data for table `django_session`
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('wz7th9zmd12fe5p0rjuezr1xmy3vc5hp', '.eJxVjEEOwiAURO_C2pAPyEdcuu8Zmg-DUjVtUtqV8e7apAvdzntvXqqXdan92srcD1BnZdThd0uSH2XcAO4y3iadp3GZh6Q3Re-06W5CeV529--gSqvfmgN5S0ISyUV3TIZxYlu4sM_eJZAzMUNshAnWIWRYF4iAq4ADWL0_uOo3YQ:1qxjmk:5pgvcc7GMsUKx3v57Fxc-etk8Ten6v9m3BlX5K9mew8', '2023-11-14 08:07:38.930687');
+('xtp4knskf3qnuj84s9bebu6opbpom8qy', '.eJxVjMsOwiAURP-FtSFcoHJx6d5vIDwuUjWQlHZl_Hdp0oWuJplzZt7M-W0tbuu0uDmxC5Ps9NsFH59Ud5Aevt4bj62uyxz4rvCDdn5riV7Xw_07KL6XscYMUisBAiLEcLZIwltLmWSYJCrKI4AATdZZijQ8g2ayygJg0kawzxfHxzax:1r1ivD:RJ4f6Ba-KY9JXbVLPBDUp-SpHSBOqweZi9_2JeyMC7I', '2023-11-25 08:00:51.442294');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_course`
+-- Table structure for table `students_course`
 --
 
 CREATE TABLE `students_course` (
@@ -337,10 +373,10 @@ CREATE TABLE `students_course` (
   `course_name` varchar(50) NOT NULL,
   `scu` smallint(5) UNSIGNED NOT NULL,
   `sem` smallint(5) UNSIGNED NOT NULL CHECK (`sem` >= 0)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `students_course`
+-- Dumping data for table `students_course`
 --
 
 INSERT INTO `students_course` (`course_id`, `course_name`, `scu`, `sem`) VALUES
@@ -349,12 +385,13 @@ INSERT INTO `students_course` (`course_id`, `course_name`, `scu`, `sem`) VALUES
 (4, 'Design Studies I', 8, 3),
 (5, 'Academic English 1', 3, 1),
 (6, 'Linear Algebra', 2, 2),
-(7, 'Database Technology', 3, 3);
+(7, 'Database Technology', 3, 3),
+(8, 'Fundamental of Data Science', 2, 3);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_major`
+-- Table structure for table `students_major`
 --
 
 CREATE TABLE `students_major` (
@@ -363,7 +400,7 @@ CREATE TABLE `students_major` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `students_major`
+-- Dumping data for table `students_major`
 --
 
 INSERT INTO `students_major` (`major_id`, `major_name`) VALUES
@@ -383,7 +420,7 @@ INSERT INTO `students_major` (`major_id`, `major_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_major_course`
+-- Table structure for table `students_major_course`
 --
 
 CREATE TABLE `students_major_course` (
@@ -395,7 +432,7 @@ CREATE TABLE `students_major_course` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_student`
+-- Table structure for table `students_student`
 --
 
 CREATE TABLE `students_student` (
@@ -407,15 +444,15 @@ CREATE TABLE `students_student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `students_student`
+-- Dumping data for table `students_student`
 --
 
 INSERT INTO `students_student` (`student_id`, `full_name`, `email`, `major_id`, `gpa`) VALUES
 (1, 'Davin Neilson', 'davin.neilson@binus.ac.id', 'COMP', 3.85),
-(2, 'Raja Farel', 'raja.farel@gmail.com', 'COMP', 3.1),
-(3, 'Jason Alexander Kurniawan', 'jason.kurniawan@gmail.com', 'COMP', 0.5),
+(2, 'Raja Farel', 'raja.farel@gmail.com', 'COMP', 1),
+(3, 'Jason Alexander Kurniawan', 'jason.kurniawan@gmail.com', 'COMP', -1),
 (4, 'Ivan', 'ivan@gmail.com', 'COMP', 3.6),
-(5, 'Amel', 'amel@gmail.com', 'GDNM', 3),
+(5, 'Amel', 'amel@gmail.com', 'GDNM', 2),
 (6, 'Gita', 'gita@gmail.com', 'COMP', 0.5),
 (7, 'Brian Seijuro', 'brian.seijuro@gmail.com', 'FOOD', 3.88),
 (8, 'Faza Affandi', 'faza.affandi@gmail.com', 'COMP', 3.91),
@@ -438,7 +475,27 @@ INSERT INTO `students_student` (`student_id`, `full_name`, `email`, `major_id`, 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_teacher`
+-- Table structure for table `students_student_courses`
+--
+
+CREATE TABLE `students_student_courses` (
+  `id` bigint(20) NOT NULL,
+  `student_id` bigint(20) NOT NULL,
+  `course_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `students_student_courses`
+--
+
+INSERT INTO `students_student_courses` (`id`, `student_id`, `course_id`) VALUES
+(1, 1, 2),
+(2, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students_teacher`
 --
 
 CREATE TABLE `students_teacher` (
@@ -448,16 +505,17 @@ CREATE TABLE `students_teacher` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `students_teacher`
+-- Dumping data for table `students_teacher`
 --
 
 INSERT INTO `students_teacher` (`teacher_id`, `full_name`, `email`) VALUES
-(6, 'Raymond Bahana', 'r.bahana@gmail.com');
+(6, 'Raymond Bahana', 'r.bahana@gmail.com'),
+(7, 'Nunung Nurul Qomariyah, S.Kom., M.T.I., Ph.D.', 'nurul@gmail.com');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students_teacher_courses`
+-- Table structure for table `students_teacher_courses`
 --
 
 CREATE TABLE `students_teacher_courses` (
@@ -467,26 +525,35 @@ CREATE TABLE `students_teacher_courses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `students_teacher_courses`
+-- Dumping data for table `students_teacher_courses`
 --
 
 INSERT INTO `students_teacher_courses` (`id`, `teacher_id`, `course_id`) VALUES
 (3, 6, 6),
-(4, 6, 7);
+(4, 6, 7),
+(7, 7, 2),
+(8, 7, 8);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `auth_group`
+-- Indexes for table `authy_profile`
+--
+ALTER TABLE `authy_profile`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `auth_group`
 --
 ALTER TABLE `auth_group`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indeks untuk tabel `auth_group_permissions`
+-- Indexes for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
   ADD PRIMARY KEY (`id`),
@@ -494,21 +561,21 @@ ALTER TABLE `auth_group_permissions`
   ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
 
 --
--- Indeks untuk tabel `auth_permission`
+-- Indexes for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
 
 --
--- Indeks untuk tabel `auth_user`
+-- Indexes for table `auth_user`
 --
 ALTER TABLE `auth_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indeks untuk tabel `auth_user_groups`
+-- Indexes for table `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
   ADD PRIMARY KEY (`id`),
@@ -516,7 +583,7 @@ ALTER TABLE `auth_user_groups`
   ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
 
 --
--- Indeks untuk tabel `auth_user_user_permissions`
+-- Indexes for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
   ADD PRIMARY KEY (`id`),
@@ -524,7 +591,7 @@ ALTER TABLE `auth_user_user_permissions`
   ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
 
 --
--- Indeks untuk tabel `django_admin_log`
+-- Indexes for table `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
   ADD PRIMARY KEY (`id`),
@@ -532,39 +599,39 @@ ALTER TABLE `django_admin_log`
   ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `django_content_type`
+-- Indexes for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
 
 --
--- Indeks untuk tabel `django_migrations`
+-- Indexes for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `django_session`
+-- Indexes for table `django_session`
 --
 ALTER TABLE `django_session`
   ADD PRIMARY KEY (`session_key`),
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
--- Indeks untuk tabel `students_course`
+-- Indexes for table `students_course`
 --
 ALTER TABLE `students_course`
   ADD PRIMARY KEY (`course_id`);
 
 --
--- Indeks untuk tabel `students_major`
+-- Indexes for table `students_major`
 --
 ALTER TABLE `students_major`
   ADD PRIMARY KEY (`major_id`);
 
 --
--- Indeks untuk tabel `students_major_course`
+-- Indexes for table `students_major_course`
 --
 ALTER TABLE `students_major_course`
   ADD PRIMARY KEY (`id`),
@@ -572,20 +639,28 @@ ALTER TABLE `students_major_course`
   ADD KEY `students_major_cours_major_id_id_9201c13e_fk_students_` (`major_id_id`);
 
 --
--- Indeks untuk tabel `students_student`
+-- Indexes for table `students_student`
 --
 ALTER TABLE `students_student`
   ADD PRIMARY KEY (`student_id`),
   ADD KEY `students_student_major_id_1e02fe7d` (`major_id`);
 
 --
--- Indeks untuk tabel `students_teacher`
+-- Indexes for table `students_student_courses`
+--
+ALTER TABLE `students_student_courses`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `students_student_courses_student_id_course_id_78883ea8_uniq` (`student_id`,`course_id`),
+  ADD KEY `students_student_cou_course_id_0fe22e8d_fk_students_` (`course_id`);
+
+--
+-- Indexes for table `students_teacher`
 --
 ALTER TABLE `students_teacher`
   ADD PRIMARY KEY (`teacher_id`);
 
 --
--- Indeks untuk tabel `students_teacher_courses`
+-- Indexes for table `students_teacher_courses`
 --
 ALTER TABLE `students_teacher_courses`
   ADD PRIMARY KEY (`id`),
@@ -593,146 +668,171 @@ ALTER TABLE `students_teacher_courses`
   ADD KEY `students_teacher_cou_course_id_4ea288a4_fk_students_` (`course_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `auth_group`
+-- AUTO_INCREMENT for table `authy_profile`
+--
+ALTER TABLE `authy_profile`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `auth_group`
 --
 ALTER TABLE `auth_group`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `auth_group_permissions`
+-- AUTO_INCREMENT for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `auth_permission`
+-- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT untuk tabel `auth_user`
+-- AUTO_INCREMENT for table `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `auth_user_groups`
+-- AUTO_INCREMENT for table `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `auth_user_user_permissions`
+-- AUTO_INCREMENT for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `django_admin_log`
+-- AUTO_INCREMENT for table `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT untuk tabel `django_content_type`
+-- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `django_migrations`
+-- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
--- AUTO_INCREMENT untuk tabel `students_course`
+-- AUTO_INCREMENT for table `students_course`
 --
 ALTER TABLE `students_course`
-  MODIFY `course_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `course_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `students_major_course`
+-- AUTO_INCREMENT for table `students_major_course`
 --
 ALTER TABLE `students_major_course`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `students_student`
+-- AUTO_INCREMENT for table `students_student`
 --
 ALTER TABLE `students_student`
   MODIFY `student_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT untuk tabel `students_teacher`
+-- AUTO_INCREMENT for table `students_student_courses`
+--
+ALTER TABLE `students_student_courses`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `students_teacher`
 --
 ALTER TABLE `students_teacher`
-  MODIFY `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `students_teacher_courses`
+-- AUTO_INCREMENT for table `students_teacher_courses`
 --
 ALTER TABLE `students_teacher_courses`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `auth_group_permissions`
+-- Constraints for table `authy_profile`
+--
+ALTER TABLE `authy_profile`
+  ADD CONSTRAINT `authy_profile_user_id_200e8c9b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
   ADD CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `auth_permission`
+-- Constraints for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
   ADD CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `auth_user_groups`
+-- Constraints for table `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
   ADD CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   ADD CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `auth_user_user_permissions`
+-- Constraints for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
   ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `django_admin_log`
+-- Constraints for table `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
   ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
 
 --
--- Ketidakleluasaan untuk tabel `students_major_course`
+-- Constraints for table `students_major_course`
 --
 ALTER TABLE `students_major_course`
   ADD CONSTRAINT `students_major_cours_course_id_id_3a96e7b9_fk_students_` FOREIGN KEY (`course_id_id`) REFERENCES `students_course` (`course_id`),
   ADD CONSTRAINT `students_major_cours_major_id_id_9201c13e_fk_students_` FOREIGN KEY (`major_id_id`) REFERENCES `students_major` (`major_id`);
 
 --
--- Ketidakleluasaan untuk tabel `students_student`
+-- Constraints for table `students_student`
 --
 ALTER TABLE `students_student`
   ADD CONSTRAINT `students_student_major_id_1e02fe7d_fk_students_major_major_id` FOREIGN KEY (`major_id`) REFERENCES `students_major` (`major_id`);
 
 --
--- Ketidakleluasaan untuk tabel `students_teacher_courses`
+-- Constraints for table `students_student_courses`
+--
+ALTER TABLE `students_student_courses`
+  ADD CONSTRAINT `students_student_cou_course_id_0fe22e8d_fk_students_` FOREIGN KEY (`course_id`) REFERENCES `students_course` (`course_id`),
+  ADD CONSTRAINT `students_student_cou_student_id_a28ced40_fk_students_` FOREIGN KEY (`student_id`) REFERENCES `students_student` (`student_id`);
+
+--
+-- Constraints for table `students_teacher_courses`
 --
 ALTER TABLE `students_teacher_courses`
   ADD CONSTRAINT `students_teacher_cou_course_id_4ea288a4_fk_students_` FOREIGN KEY (`course_id`) REFERENCES `students_course` (`course_id`),
