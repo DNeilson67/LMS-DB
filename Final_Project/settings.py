@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import platform
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,7 +83,7 @@ DATABASES = {
         'NAME': 'edutify',
         'USER':'root',
         'PASSWORD' : '',
-        'HOST' : 'localhost',
+        'HOST' : 'localhost' if platform.system() == 'Windows' else '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
         'PORT': '3306'
     }
 }
