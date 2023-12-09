@@ -26,5 +26,9 @@ urlpatterns = [
     path('<slug:major_id>/<int:course_id>', views.view_major_course, name = 'view_major_course'),
     path('add_major_course/', views.add_major_course, name = 'add_major_course'),
     path('edit_major_course/<slug:major_id>/<int:course_id>', views.edit_major_course, name = 'edit_major_course'),
-    path('delete_major_course/<slug:major_id>/<int:course_id>', views.delete_major_course, name = 'delete_major_course')
-]
+    path('delete_major_course/<slug:major_id>/<int:course_id>', views.delete_major_course, name = 'delete_major_course'),
+    #Classroom_Course
+    path('student_view_course/', views.student_view_course, name = 'student_view_course'),
+    # path('dummy_login/', views.dummy_login, name='dummy_login'),
+
+    ]

@@ -1,5 +1,8 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.urls import reverse
+import uuid
 # Create your models here. (Database)
 
 class Course(models.Model):
@@ -44,6 +47,8 @@ class Student(models.Model):
 
     def __str__(self) -> str:
         return f"""
+
+
 Student Details : \n
 ID : {self.student_id}
 Name : {self.full_name}

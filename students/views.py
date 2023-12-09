@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 
 from .models import Course, Student, Teacher, Major, Major_Course
 from .forms import CourseForm, Major_CourseForm, MajorForm, StudentForm, TeacherForm
@@ -238,4 +240,21 @@ def delete_major_course(request, major_id, course_id):
         course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
         course.delete()
     return HttpResponseRedirect(reverse("index")) 
+
+def student_view_course(request):
+    # Assuming you have a user object and the associated student object
+    student_courses = Course.objects.all()
+
+
+
+    return render(request, 'students/classroom.html', { 'courses': student_courses})
+
+# def dummy_login(request):
+#     # Dummy login logic
+#     user = authenticate(request)
+#     if user is not None:
+#         login(request, user)
+#         return redirect('student_view_course', student_id=user.student.id)
+#     else:
+#         return HttpResponseRedirect('Login failed')
 

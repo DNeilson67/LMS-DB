@@ -1,3 +1,3 @@
-# Learning Management System - DB
+# LMS-DB
 ## How to run:
 python manage.py runserver
