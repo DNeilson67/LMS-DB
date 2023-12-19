@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from .models import *
 from .forms import CourseForm, MajorForm, StudentForm, StudentLoginForm, TeacherForm
@@ -68,6 +69,22 @@ def delete_student(request, student_id):
         student = Student.objects.get(pk=student_id)
         student.delete()
     return HttpResponseRedirect(reverse("index"))
+
+def get_student_search(request):
+    query = request.GET.get("q")
+
+    student = Student.objects.filter(
+        Q(full_name__icontains = query)
+    )
+
+    return render(request, 'students/index.html', {
+        'user' : request.user.is_authenticated,
+        'students': student,
+        'teachers': Teacher.objects.all(),
+        'majors':Major.objects.all(),
+        'courses':Course.objects.all(),
+        'SCU' : SCU.objects.all()
+    })
 
 # Teachers
 

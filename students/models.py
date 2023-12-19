@@ -49,8 +49,6 @@ class Student(models.Model):
 
     def __str__(self) -> str:
         return f"""
-
-
 Student Details : \n
 ID : {self.student_id}
 Name : {self.full_name}
