@@ -26,21 +26,26 @@
   <div id="myTabContent" class="tab-content">
     <!-- Student Tab  -->
     <div class="tab-pane fade show active" id="studentsTab" role="tabpanel">
-      {% if students %}
+
       <div class="card bg-light mb-3" id="studentsCard">
         <div class="card-header d-flex justify-content-between">
           <div>
             <h4>Student Lists</h4>
           </div>
-          <form method="GET" action="{% url 'get_student_search' %}">
-            <div class="md-form mt-0 active-cyan-2">
-              <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search" value="{{request.GET.q}}">
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-          </form>
+
+            <form method="GET" action="{% url 'get_student_search' %}">
+              <div style="display: flex;">
+                <div class="md-form mt-0 active-cyan-2">
+                  <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search" value="{{request.GET.q}}">
+                </div>
+                <div class="col"><button type="submit" class="btn btn-primary">Search</button></div>
+              </div>
+            </form>
+
           <div class="ml-auto"><a href="{%url 'add_student'%}"><button type="button" class="btn btn-primary">Add
                 Students</button></a></div>
           </div>
+        {% if students %}
         <div class="card-body">
           <table class="table table-hover">
             <thead>
@@ -152,23 +157,32 @@
       </div>
       {% else %}
       <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no student in the record. Considering add a student.
+        <strong>Oh snap!</strong>
+        {% if alert %}
+        {{ alert }}
+        {% else %}
+        There is no student in the record. Considering add a student.
+        {% endif %}
       </div>
-      <a href="{%url 'add_student'%}"><button type="button" class="btn btn-primary">Add
-          Students</button></a>
       {% endif %}
     </div>
     <!-- Teacher Tab  -->
     <div class="tab-pane fade" id="teachersTab" role="tabpanel">
-      {% if teachers %}
       <div class="card bg-light mb-3" id="teachersCard">
         <div class="card-header d-flex justify-content-between">
           <div>
             <h4>Teachers List</h4>
           </div>
+          <!-- <form method="GET" action="{% url 'get_teacher_search' %}">
+            <div class="md-form mt-0 active-cyan-2">
+              <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search" value="{{request.GET.q}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form> -->
           <div class="ml-auto"><a href="{%url 'add_teacher'%}"><button type="button" class="btn btn-primary">Add
                 Teacher</button></a></div>
         </div>
+        {% if teachers %}
         <div class="card-body">
           <table class="table table-hover">
             <thead>
@@ -259,10 +273,13 @@
       </div>
       {% else %}
       <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no teachers in the record. Considering add a teacher.
+        <strong>Oh snap!</strong> 
+        {% if alert %}
+        {{ alert }}
+        {% else %}
+        There is no student in the record. Considering add a teacher.
+        {% endif %}        
       </div>
-      <a href="{%url 'add_teacher'%}"><button type="button" class="btn btn-primary">Add
-          Students</button></a>
       {% endif %}
     </div>
     <!-- Major Tab  -->
@@ -423,7 +440,7 @@
       </div>
       {% else %}
       <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no courses in the record. Considering add a course.
+        <strong>Oh snap!</strong> {{ alert }}There is no courses in the record. Considering add a course.
       </div>
       <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
           Course</button></a>
