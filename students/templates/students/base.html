@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" />
     <link href="{% static 'css/style.css'%}" rel="stylesheet" />
-    <title>Edutify</title>
+    <title>Edutify Admin</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Edutify</a>
+        <a class="navbar-brand" href="#">Edutify Admin</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -19,28 +19,31 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link active">
-                Home
+                Records
                 <span class="visually-hidden">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
           </ul>
           <form class="d-flex">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Register</button>
-            <a href="{%url 'student_view_course' %}"><button class="btn btn-primary my-2 my-sm-0" type="button">Login</button></a>
+            {% if user %}
+            <a href="{%url 'logout' %}"><button class="btn btn-danger my-2 my-sm-0" type="button">Logout</button></a>
+            {%else%}
+            <a href="{%url 'login' %}"><button class="btn btn-primary my-2 my-sm-0" type="button">Login</button></a>
+            {%endif%}
           </form>
         </div>
       </div>
     </nav>
-    <div class="container-fluid" style="margin: 10px">{% block body %} {% endblock %}</div>
+    <div class="container-fluid" style="margin: 10px">
+      {%if user%}
+      {% block body %} 
+      {% endblock %}
+      {%else%}
+      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
+        <strong>You do not have the permission to access this site!</strong>
+      </div>
+      {%endif%}
+    </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/1a4ebbd5fe.js" crossorigin="anonymous"></script>

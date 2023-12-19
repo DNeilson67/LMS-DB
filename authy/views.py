@@ -3,6 +3,9 @@ from authy.forms import SignupForm, ChangePasswordForm, EditProfileForm
 from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib.auth import logout
+
 from django.contrib.auth import update_session_auth_hash
 from django.db.models import Sum
 
@@ -48,7 +51,7 @@ def Signup(request):
 			email = form.cleaned_data.get('email')
 			password = form.cleaned_data.get('password')
 			User.objects.create_user(username=username, email=email, password=password)
-			return redirect('edit-profile')
+			return redirect('edit-profile', {'user'})
 	else:
 		form = SignupForm()
 	
@@ -82,6 +85,10 @@ def PasswordChange(request):
 def PasswordChangeDone(request):
 	return render(request, 'change_password_done.html')
 
+def LogOut(request):
+	if request.method == "POST":
+		logout(request)
+		return redirect('logout')
 
 # @login_required
 def EditProfile(request):

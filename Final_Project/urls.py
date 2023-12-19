@@ -24,8 +24,8 @@ from django.conf.urls.static import static
 from authy.views import UserProfile
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('user/', include('authy.urls')),
+    path('adminDB/', admin.site.urls),
+    path('', include('authy.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include('students.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

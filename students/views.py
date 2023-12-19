@@ -3,17 +3,20 @@ from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
 
-from .models import Course, Student, Teacher, Major, Major_Course
-from .forms import CourseForm, Major_CourseForm, MajorForm, StudentForm, TeacherForm
+from .models import Course, Student, Teacher, Major
+from .forms import CourseForm, MajorForm, StudentForm, StudentLoginForm, TeacherForm
 
 def index(request):
     return render(request, 'students/index.html', {
+        'user' : request.user.is_authenticated,
         'students': Student.objects.all(),
         'teachers': Teacher.objects.all(),
         'majors':Major.objects.all(),
         'courses':Course.objects.all(),
-        'major_courses': Major_Course.objects.all()
     })
 
 # Student Data
@@ -36,7 +39,8 @@ def add_student(request):
     else:
         form = StudentForm()
     return render(request, 'students/add_student.html', {
-        'form': StudentForm()
+        'form': StudentForm(),
+        'user' : request.user.is_authenticated,
     })
     
 def edit_student(request, student_id):
@@ -47,13 +51,15 @@ def edit_student(request, student_id):
             form.save()
         return render(request, 'students/edit.html', {
             'form':StudentForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     else:
         student = Student.objects.get(pk=student_id)
         form = StudentForm(instance=student)
     return render(request, 'students/edit.html', {
-        'form': form
+        'form': form,
+        'user' : request.user.is_authenticated,
     })
 
 def delete_student(request, student_id):
@@ -76,13 +82,15 @@ def add_teacher(request):
 
         return render(request, 'students/add_teacher.html', {
             'form':TeacherForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     
     else:
         form = TeacherForm()
     return render(request, 'students/add_teacher.html', {
-        'form': TeacherForm()
+        'form': TeacherForm(),
+        'user' : request.user.is_authenticated,
     })
     
 def edit_teacher(request, teacher_id):
@@ -93,13 +101,15 @@ def edit_teacher(request, teacher_id):
             form.save()
         return render(request, 'students/edit.html', {
             'form':TeacherForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     else:
         teacher = Teacher.objects.get(pk=teacher_id)
         form = TeacherForm(instance=teacher)
     return render(request, 'students/edit.html', {
-        'form': form
+        'form': form,
+        'user' : request.user.is_authenticated,
     })
 
 def delete_teacher(request, teacher_id):
@@ -125,13 +135,15 @@ def add_major(request):
 
         return render(request, 'students/add_major.html', {
             'form':MajorForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     
     else:
         form = MajorForm()
     return render(request, 'students/add_major.html', {
-        'form': MajorForm()
+        'form': MajorForm(),
+        'user' : request.user.is_authenticated,
     })
 
 def delete_major(request, major_id):
@@ -153,13 +165,15 @@ def edit_course(request, course_id):
             form.save()
         return render(request, 'students/edit.html', {
             'form':CourseForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     else:
         student = Course.objects.get(pk=course_id)
         form = CourseForm(instance=student)
     return render(request, 'students/edit.html', {
-        'form': form
+        'form': form,
+        'user' : request.user.is_authenticated,
     })
 
 def add_course(request):
@@ -180,13 +194,15 @@ def add_course(request):
 
         return render(request, 'students/add_course.html', {
             'form':CourseForm(),
-            'success':True
+            'success':True,
+            'user' : request.user.is_authenticated,
         })
     
     else:
         form = CourseForm()
     return render(request, 'students/add_course.html', {
-        'form': CourseForm()
+        'form': CourseForm(),
+        'user' : request.user.is_authenticated,
     })
 
 def delete_course(request, course_id):
@@ -195,59 +211,36 @@ def delete_course(request, course_id):
         course.delete()
     return HttpResponseRedirect(reverse("index")) 
 
+def student_view_course(request, email, password):
+    # Assuming you have a user object and the associated student object
+    student_courses = Student.objects.get(email = email, password = password).courses
+    return render(request, 'students/classroom.html', {'courses': student_courses})
 
-## Major_Course
-def view_major_course(request, major_id, course_id):
-    major_course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
-    return HttpResponseRedirect(reverse('index'))
-   
-def edit_major_course(request, major_id, course_id):
+def view_startpage(request):
+    return render(request, 'students/startpage.html')
+
+def login_student(request):
     if request.method == 'POST':
-        student = Major_Course.objects.get(major_id = major_id, course_id = course_id)
-        form = Major_CourseForm(request.POST, instance=student)
-        if form.is_valid():
-            form.save()
-        return render(request, 'students/edit.html', {
-            'form':Major_CourseForm(),
-            'success':True
-        })
-    else:
-        student = Major_Course.objects.get(major_id = major_id, course_id = course_id)
-        form = Major_CourseForm(instance=student)
-    return render(request, 'students/edit.html', {
-        'form': form
+        form = StudentLoginForm(request.POST)
+        form.is_valid()
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password']
+        try:
+            Student.objects.get(email = email, password = password).courses.all
+        except:
+            return render(request, 'students/login_student.html', {
+        'form': StudentLoginForm(),
+        'retry': True
     })
-
-def add_major_course(request):
-    if request.method == 'POST':
-        form = Major_CourseForm(request.POST)
-        if form.is_valid():
-            form.save
-
-        return render(request, 'students/add_major_course.html', {
-            'form':Major_CourseForm(),
-            'success':True
+        return render(request, 'students/classroom.html', {
+            'courses': Student.objects.get(email = email, password = password).courses.all
         })
     
     else:
-        form = Major_CourseForm()
-    return render(request, 'students/add_major_course.html', {
-        'form': Major_CourseForm()
+        form = StudentLoginForm()
+    return render(request, 'students/login_student.html', {
+        'form': StudentLoginForm()
     })
-
-def delete_major_course(request, major_id, course_id):
-    if request.method == 'POST':
-        course = Major_Course.objects.get(major_id = major_id, course_id = course_id)
-        course.delete()
-    return HttpResponseRedirect(reverse("index")) 
-
-def student_view_course(request):
-    # Assuming you have a user object and the associated student object
-    student_courses = Course.objects.all()
-
-
-
-    return render(request, 'students/classroom.html', { 'courses': student_courses})
 
 # def dummy_login(request):
 #     # Dummy login logic

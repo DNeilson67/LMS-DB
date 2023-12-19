@@ -100,14 +100,14 @@
                             </strong>
                           </li>
                           <li>Courses: <strong>
-                            <ul>
-                              {% for j in i.courses.all %}
-                              <li>{{j.course_name}}</li>
-                              {% empty %}
-                              None
-                              {%endfor%}
-                            </ul>
-                          </strong></li>
+                              <ul>
+                                {% for j in i.courses.all %}
+                                <li>{{j.course_name}}</li>
+                                {% empty %}
+                                None
+                                {%endfor%}
+                              </ul>
+                            </strong></li>
                         </ul>
                       </div>
                       <div class="modal-footer">
@@ -352,7 +352,7 @@
                 <td>{{ i.course_name }}</td>
                 <td>{{ i.scu }}</td>
                 <td><button type="button" class="btn btn-info me-1" href="{% url 'view_course' i.course_id %}"
-                    data-bs-toggle="modal" data-bs-target="#myModalCourse{{i.teacher_id}}"><i
+                    data-bs-toggle="modal" data-bs-target="#myModalCourse{{i.course_id}}"><i
                       class="fa-sharp fa-solid fa-circle-info"></i></button>
                   <a class="btn btn-warning me-1" href="{% url 'edit_course' i.course_id %}"><i
                       class="fa-sharp fa-solid fa-pen-to-square"></i></a>
@@ -376,6 +376,9 @@
                           <li>CourseID: <strong>{{i.course_id}}</strong></li>
                           <li>SCU: <strong>{{i.scu}}</strong></li>
                           <li>Semester: <strong>{{i.sem}}</strong></li>
+                          <li>Total Session Available: <strong>
+                              {{i.scu}}
+                            </strong></li>
                         </ul>
                       </div>
                       <div class="modal-footer">
@@ -417,103 +420,6 @@
         <strong>Oh snap!</strong> There is no courses in the record. Considering add a course.
       </div>
       <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
-          Course</button></a>
-      {% endif %}
-    </div>
-    <!-- Course Tab  -->
-    <div class="tab-pane fade" id="major_courseTab" role="tabpanel">
-      {% if teacher_courses %}
-      <div class="card bg-light mb-3" id="coursesCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>Enrollment List</h4>
-          </div>
-          <div class="ml-auto"><a href="{%url 'add_major_course'%}"><button type="button" class="btn btn-primary">Join
-                Course</button></a></div>
-        </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">MajorID</th>
-                <th scope="col">CourseID</th>
-                <th scope="col">Major Name</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in teacher_courses%}
-              <tr>
-                <td>{{ i.teacher_id}}</td>
-                <td>{{ i.course_id}}</td>
-                <td>{{ i.teacher_id.major_name}}</td>
-                <td>{{ i.course_id.course_name}}</td>
-                <td><button type="button" class="btn btn-info me-1"
-                    href="{% url 'view_major_course' i.major_id i.course_id %}" data-bs-toggle="modal"
-                    data-bs-target="#myModalMajorCourse{{i.major_id}}{{i.course_id}}"><i
-                      class="fa-sharp fa-solid fa-circle-info"></i></button>
-                  <a class="btn btn-warning me-1" href="{% url 'edit_major_course' i.major_id i.course_id%}"><i
-                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModalMajorCourse{{i.course_id}}"><i
-                      class="fa-sharp fa-solid fa-trash"></i></button>
-                </td>
-                <div class="modal fade" id="myModalMajorCourse{{i.major_id}}{{i.course_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel10" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Record Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <ul class="list-unstyled">
-                          <li>Major ID: <strong>{{i.major_id}}</strong></li>
-                          <li>Course ID: <strong>{{i.course_id}}</strong></li>
-                        </ul>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal fade" id="deleteModalMajorCourse{{i.course_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel02" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title">Unlink?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h5>Are you sure to unlink this? This can't be <strong>restored</strong>!</h5>
-                        <div class="modal-footer">
-                          <form action="{% url 'delete_major_course' i.major_id i.course_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value='Delete'>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% else %}
-      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> You have not joined any major and course. Considering make a relationship.
-      </div>
-      <a href="{%url 'add_major_course'%}"><button type="button" class="btn btn-primary">Add
           Course</button></a>
       {% endif %}
     </div>

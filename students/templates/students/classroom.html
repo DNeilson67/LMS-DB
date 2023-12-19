@@ -6,29 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" />
     <link href="{% static 'css/style.css'%}" rel="stylesheet" />
+    <title>Edutify</title>
+
     <style>
       .course-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-row-gap: 50px;
+        grid-column-gap: 20px;
+        padding-right: 125px;
+        padding-left: 125px;
+        padding-top: 50px;
       }
 
       .course-box {
+        width: 350px;
+        height: 220px;
         border: 1px solid #ccc;
-        padding: 10px;
-        margin: 5px;
-        width: 30%; 
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        text-align: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
 
       .course-name {
+        color: #333;
+        font-size: 18px;
         font-weight: bold;
+        margin: 10px 0;
       }
 
       .scu {
-        color: rgb(255, 0, 0);
+        font-size: 14px;
+        margin-bottom: 0px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
       }
+
+      .course-box::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 5px;
+        background-color: #007bff;
+        border-radius: 8px 8px 0 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .course-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Additional styling can be added here */
     </style>
-    <title>Edutify</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -40,21 +82,17 @@
         <div class="collapse navbar-collapse" id="navbarColor04">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a href="{% url 'index' %}" class="nav-link active" href="#">Home <span class="visually-hidden">(current)</span></a>
+              <a href="#" class="nav-link active" href="#">Courses <span class="visually-hidden">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
+              <a class="nav-link" href="#">Score</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="#">Profile</a>
             </li>
           </ul>
           <form class="d-flex">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Register</button>
-            <a href="{%url 'student_view_course' %}"><button class="btn btn-primary my-2 my-sm-0" type="button">Login</button></a>
+            <a href="{%url '' %}"><button class="btn btn-danger my-2 my-sm-0" type="button">Logout</button></a>
           </form>
         </div>
       </div>

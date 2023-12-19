@@ -12,14 +12,15 @@ class Course(models.Model):
     sem = models.PositiveSmallIntegerField()
 
     def __str__(self) -> str:
-        return f"{self.course_id}"
+        return f"{self.course_name}"
 
-class Major_Course(models.Model):
-    major_id = models.ForeignKey("major", on_delete=models.SET_NULL, null= True)
-    course_id = models.ForeignKey("course", on_delete=models.SET_NULL, null= True)
+class SCU(models.Model):
+    scu = models.PositiveSmallIntegerField(primary_key=True)
+    MaxAbs = models.PositiveSmallIntegerField()
+    TotalSec = models.PositiveSmallIntegerField()
 
     def __str__(self) -> str:
-        return f"{self.major_id}"
+        return f"{self.scu}"
     
 class Major(models.Model):
     major_id = models.CharField(primary_key=True, serialize=False, max_length=4, unique = True)
@@ -41,6 +42,7 @@ class Student(models.Model):
     student_id = models.BigAutoField(primary_key=True, auto_created=True, serialize=False)
     full_name = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
+    password = models.CharField(max_length=50, default = "edutify")
     major = models.ForeignKey("major", on_delete=models.SET_NULL, null = True)
     gpa = models.FloatField()
     courses = models.ManyToManyField(Course)

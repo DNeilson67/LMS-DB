@@ -1,5 +1,5 @@
 from django import forms
-from .models import Course, Major, Major_Course, Student
+from .models import Course, Major,Student
 from .models import Teacher
 
 class StudentForm(forms.ModelForm):
@@ -19,12 +19,14 @@ class StudentForm(forms.ModelForm):
             'student_id' : forms.NumberInput(attrs={'class':'form-control'}),
             'full_name' : forms.TextInput(attrs={'class':'form-control'}),
             'email' : forms.TextInput(attrs={'class':'form-control'}),
+            'password': forms.PasswordInput(attrs={'class':'form-control'}),
             'major' : forms.Select(choices = majorChoices),
             'gpa'   : forms.NumberInput(attrs={'class':'form-control'})            
         }
     courses = forms.ModelMultipleChoiceField(
             queryset= Course.objects.all(),
-            widget=forms.CheckboxSelectMultiple
+            widget=forms.CheckboxSelectMultiple,
+            to_field_name='course_name'
         )
 
 class TeacherForm(forms.ModelForm):
@@ -78,16 +80,6 @@ class CourseForm(forms.ModelForm):
             'sem':forms.NumberInput(attrs={'class':'form-control'})
         }
 
-class Major_CourseForm(forms.ModelForm):
-    class Meta:
-        model = Major_Course
-        fields = ['id', 'major_id', 'course_id']
-        labels = {
-            'id'        : 'ID',
-            'major_id'  : 'MajorID',
-            'course_id' : 'CourseID',
-        }
-        widgets = {
-            'major_id'  : forms.Select(choices = Major.objects.all()),
-            'course_id' : forms.Select(choices = Course.objects.all())
-        }
+class StudentLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(label="")
