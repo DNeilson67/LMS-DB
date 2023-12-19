@@ -8,7 +8,7 @@ import uuid
 class Course(models.Model):
     course_id = models.BigAutoField(primary_key=True, serialize=False)
     course_name = models.CharField(max_length=50)
-    scu = models.PositiveSmallIntegerField()
+    scu = models.ForeignKey("scu", on_delete=models.SET_NULL, null = True)
     sem = models.PositiveSmallIntegerField()
 
     def __str__(self) -> str:
