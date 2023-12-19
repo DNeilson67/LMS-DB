@@ -19,8 +19,8 @@
         tabindex="-1">Courses</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="tab" href="#major_courseTab" aria-selected="false" role="tab"
-        tabindex="-1">Enrollment</a>
+      <a class="nav-link" data-bs-toggle="tab" href="#scuTab" aria-selected="false" role="tab"
+        tabindex="-1">SCU</a>
     </li>
   </ul>
   <div id="myTabContent" class="tab-content">
@@ -419,6 +419,37 @@
       <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
         <strong>Oh snap!</strong> There is no courses in the record. Considering add a course.
       </div>
+      <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
+          Course</button></a>
+      {% endif %}
+    </div>
+    <!-- Enrollment Tab  -->
+    <div class="tab-pane fade" id="scuTab" role="tabpanel">
+      {% if SCU %}
+      <div class="card bg-light mb-3" id="scuCard">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+            <h4>SCU List</h4>
+          </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">SCU</th>
+                <th scope="col">Total Sections</th>
+                <th scope="col">Maximum Absence</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in SCU%}
+              <tr>
+                <td>{{ i.scu}}</td>
+                <td>{{ i.TotalSec }}</td>
+                <td>{{ i.MaxAbs }}</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
       <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
           Course</button></a>
       {% endif %}

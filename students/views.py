@@ -7,7 +7,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 
-from .models import Course, Student, Teacher, Major
+from .models import *
 from .forms import CourseForm, MajorForm, StudentForm, StudentLoginForm, TeacherForm
 
 def index(request):
@@ -17,6 +17,7 @@ def index(request):
         'teachers': Teacher.objects.all(),
         'majors':Major.objects.all(),
         'courses':Course.objects.all(),
+        'SCU' : SCU.objects.all()
     })
 
 # Student Data
@@ -241,6 +242,7 @@ def login_student(request):
     return render(request, 'students/login_student.html', {
         'form': StudentLoginForm()
     })
+
 
 # def dummy_login(request):
 #     # Dummy login logic
