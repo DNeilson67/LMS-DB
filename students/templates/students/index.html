@@ -94,7 +94,104 @@
                         <svg><circle cx="38" cy="38" r="36"></circle></svg>
                         <div class="number"><p>93%</p></div>
                     </div>
+<<<<<<< HEAD
                     <small class="text-muted">Last 24 Hours</small>
+=======
+                  </div>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
+        <strong>Oh snap!</strong>
+        {% if alert %}
+        {{ alert }}
+        {% else %}
+        There is no student in the record. Considering add a student.
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    <!-- Teacher Tab  -->
+    <div class="tab-pane fade" id="teachersTab" role="tabpanel">
+      <div class="card bg-light mb-3" id="teachersCard">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+            <h4>Teachers List</h4>
+          </div>
+          <!-- <form method="GET" action="{% url 'get_teacher_search' %}">
+            <div class="md-form mt-0 active-cyan-2">
+              <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search" value="{{request.GET.q}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form> -->
+          <div class="ml-auto"><a href="{%url 'add_teacher'%}"><button type="button" class="btn btn-primary">Add
+                Teacher</button></a></div>
+        </div>
+        {% if teachers %}
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">EduTeachID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Courses</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in teachers%}
+              <tr>
+                <td>{{ i.teacher_id}}</td>
+                <td>{{ i.full_name }}</td>
+                <td>{{ i.email }}</td>
+                <td>{% for j in i.courses.all %}
+                  {{j.course_name}},
+                  {%endfor%}
+                </td>
+                <td><button type="button" class="btn btn-info me-1" href="{% url 'view_teacher' i.teacher_id %}"
+                    data-bs-toggle="modal" data-bs-target="#myModalTeacher{{i.teacher_id}}"><i
+                      class="fa-sharp fa-solid fa-circle-info"></i></button>
+                  <a class="btn btn-warning me-1" href="{% url 'edit_teacher' i.teacher_id %}"><i
+                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteModalTeacher{{i.teacher_id}}"><i
+                      class="fa-sharp fa-solid fa-trash"></i></button>
+                </td>
+                <div class="modal fade" id="myModalTeacher{{i.teacher_id}}" tabindex="-1"
+                  aria-labelledby="myModalLabel10" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Teacher Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true"></span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h3>{{i.full_name}}</h3>
+                        <ul class="list-unstyled">
+                          <li>EduTeachID: <strong>{{i.teacher_id}}</strong></li>
+                          <li>Email: <strong>{{i.email}}</strong></li>
+                          <li>Courses: <strong>
+                              <ul>
+                                {% for j in i.courses.all %}
+                                <li>{{j.course_name}}</li>
+                                {%endfor%}
+                              </ul>
+                            </strong></li>
+                        </ul>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+>>>>>>> 78c786efb485d0a09ccb7563a9df07b45d9c98a0
                 </div>
                 <div class="cs">
                     <span class="material-icons-sharp">computer</span>
@@ -104,7 +201,155 @@
                         <svg><circle cx="38" cy="38" r="36"></circle></svg>
                         <div class="number"><p>81%</p></div>
                     </div>
+<<<<<<< HEAD
                     <small class="text-muted">Last 24 Hours</small>
+=======
+                  </div>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
+        <strong>Oh snap!</strong> 
+        {% if alert %}
+        {{ alert }}
+        {% else %}
+        There is no student in the record. Considering add a teacher.
+        {% endif %}        
+      </div>
+      {% endif %}
+    </div>
+    <!-- Major Tab  -->
+    <div class="tab-pane fade" id="majorsTab" role="tabpanel">
+      {% if majors %}
+      <div class="card bg-light mb-3" id="majorsCard">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+            <h4>Majors List</h4>
+          </div>
+          <div class="ml-auto"><a href="{%url 'add_major'%}"><button type="button" class="btn btn-primary">Add
+                Major</button></a></div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">MajorID</th>
+                <th scope="col">Major Name</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in majors%}
+              <tr>
+                <td>{{ i.major_id}}</td>
+                <td>{{ i.major_name }}</td>
+                <td>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteModalMajor{{i.major_id}}"><i class="fa-sharp fa-solid fa-trash"></i></button>
+                </td>
+                <div class="modal fade" id="deleteModalMajor{{i.major_id}}" tabindex="-1"
+                  aria-labelledby="myModalLabel02" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h3 class="modal-title">Delete <strong>{{i.major_name}}</strong>?</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true"></span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h5>Are you sure to delete this? This can't be <strong>restored</strong>!</h5>
+                        <div class="modal-footer">
+                          <form action="{% url 'delete_major' i.major_id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value='Delete'>
+                          </form>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
+        <strong>Oh snap!</strong> There is no majors in the record. Considering add a major.
+      </div>
+      <a href="{%url 'add_major'%}"><button type="button" class="btn btn-primary">Add
+          Major</button></a>
+      {% endif %}
+    </div>
+    <!-- Course Tab  -->
+    <div class="tab-pane fade" id="coursesTab" role="tabpanel">
+      {% if courses %}
+      <div class="card bg-light mb-3" id="coursesCard">
+        <div class="card-header d-flex justify-content-between">
+          <div>
+            <h4>Courses List</h4>
+          </div>
+          <div class="ml-auto"><a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
+                Course</button></a></div>
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">CourseID</th>
+                <th scope="col">Course Name</th>
+                <th scope="col">SCU</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in courses%}
+              <tr>
+                <td>{{ i.course_id}}</td>
+                <td>{{ i.course_name }}</td>
+                <td>{{ i.scu }}</td>
+                <td><button type="button" class="btn btn-info me-1" href="{% url 'view_course' i.course_id %}"
+                    data-bs-toggle="modal" data-bs-target="#myModalCourse{{i.course_id}}"><i
+                      class="fa-sharp fa-solid fa-circle-info"></i></button>
+                  <a class="btn btn-warning me-1" href="{% url 'edit_course' i.course_id %}"><i
+                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteModalCourse{{i.course_id}}"><i
+                      class="fa-sharp fa-solid fa-trash"></i></button>
+                </td>
+                <div class="modal fade" id="myModalCourse{{i.course_id}}" tabindex="-1" aria-labelledby="myModalLabel10"
+                  aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Course Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true"></span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h3>{{i.course_name}}</h3>
+                        <ul class="list-unstyled">
+                          <li>CourseID: <strong>{{i.course_id}}</strong></li>
+                          <li>SCU: <strong>{{i.scu}}</strong></li>
+                          <li>Semester: <strong>{{i.sem}}</strong></li>
+                          <li>Total Session Available: <strong>
+                              {{i.scu}}
+                            </strong></li>
+                        </ul>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+>>>>>>> 78c786efb485d0a09ccb7563a9df07b45d9c98a0
                 </div>
                 <div class="cg">
                     <span class="material-icons-sharp">dns</span>
@@ -194,6 +439,17 @@
             </div>
 
         </div>
+<<<<<<< HEAD
+=======
+      </div>
+      {% else %}
+      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
+        <strong>Oh snap!</strong> {{ alert }}There is no courses in the record. Considering add a course.
+      </div>
+      <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
+          Course</button></a>
+      {% endif %}
+>>>>>>> 78c786efb485d0a09ccb7563a9df07b45d9c98a0
     </div>
 
     <script src="timeTable.js"></script>

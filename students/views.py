@@ -77,8 +77,11 @@ def get_student_search(request):
     query = request.GET.get("q")
 
     student = Student.objects.filter(
-        Q(full_name__icontains = query)
-    )
+            Q(full_name__icontains = query))
+
+    if not student: alert = 'The student you are looking for is missing'
+    else:
+        alert = ''
 
     return render(request, 'students/admindashboard.html', {
         'user' : request.user.is_authenticated,
@@ -86,7 +89,8 @@ def get_student_search(request):
         'teachers': Teacher.objects.all(),
         'majors':Major.objects.all(),
         'courses':Course.objects.all(),
-        'SCU' : SCU.objects.all()
+        'SCU' : SCU.objects.all(),
+        'alert' : alert
     })
 
 # Teachers
@@ -138,6 +142,25 @@ def delete_teacher(request, teacher_id):
         teacher = Teacher.objects.get(pk=teacher_id)
         teacher.delete()
     return HttpResponseRedirect(reverse("admindashboard"))
+
+def get_teacher_search(request):
+    query = request.GET.get("q")
+
+    teacher = Teacher.objects.filter(
+            Q(full_name__icontains = query))
+
+    if not teacher: alert = 'The teacher you are looking for is missing'
+    else:
+        alert = ''
+
+    return render(request, 'students/index.html', {
+        'user' : request.user.is_authenticated,
+        'teachers': teacher,
+        'majors':Major.objects.all(),
+        'courses':Course.objects.all(),
+        'SCU' : SCU.objects.all(),
+        'alert' : alert
+    })
 
 ## Major
 def add_major(request):
