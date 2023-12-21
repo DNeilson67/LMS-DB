@@ -1,465 +1,202 @@
-{% extends "students/base.html" %}
-{% block body %}
-<div class="container-fluid" style="margin: 10px;">
-  <h3>Records</h3>
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link active" data-bs-toggle="tab" href="#studentsTab" aria-selected="true" role="tab">Students</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="tab" href="#teachersTab" aria-selected="false" role="tab"
-        tabindex="-1">Teachers</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="tab" href="#majorsTab" aria-selected="false" role="tab"
-        tabindex="-1">Majors</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="tab" href="#coursesTab" aria-selected="false" role="tab"
-        tabindex="-1">Courses</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="tab" href="#scuTab" aria-selected="false" role="tab"
-        tabindex="-1">SCU</a>
-    </li>
-  </ul>
-  <div id="myTabContent" class="tab-content">
-    <!-- Student Tab  -->
-    <div class="tab-pane fade show active" id="studentsTab" role="tabpanel">
-      {% if students %}
-      <div class="card bg-light mb-3" id="studentsCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>Student Lists</h4>
-          </div>
-          <form method="GET" action="{% url 'get_student_search' %}">
-            <div class="md-form mt-0 active-cyan-2">
-              <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search" value="{{request.GET.q}}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="shortcut icon" href="./images/logo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo" title="University Management System">
+            <img src="./images/logo.png" alt="">
+            <h2>U<span class="danger">M</span>S</h2>
+        </div>
+        <div class="navbar">
+            <a href="index.html" class="active">
+                <span class="material-icons-sharp">home</span>
+                <h3>Home</h3>
+            </a>
+            <a href="timetable.html" onclick="timeTableAll()">
+                <span class="material-icons-sharp">today</span>
+                <h3>Time Table</h3>
+            </a> 
+            <a href="exam.html">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3>Examination</h3>
+            </a>
+            <a href="password.html">
+                <span class="material-icons-sharp">password</span>
+                <h3>Change Password</h3>
+            </a>
+            <a href="#">
+                <span class="material-icons-sharp" onclick="">logout</span>
+                <h3>Logout</h3>
+            </a>
+        </div>
+        <div id="profile-btn">
+            <span class="material-icons-sharp">person</span>
+        </div>
+        <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+        </div>
+        
+    </header>
+    <div class="container">
+        <aside>
+            <div class="profile">
+                <div class="top">
+                    <div class="profile-photo">
+                        <img src="./images/profile-1.jpg" alt="">
+                    </div>
+                    <div class="info">
+                        <p>Hey, <b>Alex</b> </p>
+                        <small class="text-muted">12102030</small>
+                    </div>
+                </div>
+                <div class="about">
+                    <h5>Course</h5>
+                    <p>BTech. Computer Science & Engineering</p>
+                    <h5>DOB</h5>
+                    <p>29-Feb-2020</p>
+                    <h5>Contact</h5>
+                    <p>1234567890</p>
+                    <h5>Email</h5>
+                    <p>unknown@gmail.com</p>
+                    <h5>Address</h5>
+                    <p>Ghost town Road, New York, America</p>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-          </form>
-          <div class="ml-auto"><a href="{%url 'add_student'%}"><button type="button" class="btn btn-primary">Add
-                Students</button></a></div>
-          </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">EduID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Major</th>
-                <th scope="col">GPA</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in students%}
-              <tr>
-                <td>{{ i.student_id}}</td>
-                <td>{{ i.full_name }}</td>
-                <td>{{ i.email }}</td>
-                <td>{{ i.major }}</td>
-                <td>{{ i.gpa }}</td>
-                <td><button type="button" class="btn btn-info me-1" href="{% url 'view_student' i.student_id %}"
-                    data-bs-toggle="modal" data-bs-target="#myModal{{i.student_id}}"><i
-                      class="fa-sharp fa-solid fa-circle-info"></i></button>
-                  <a class="btn btn-warning me-1" href="{% url 'edit_student' i.student_id %}"><i
-                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal{{i.student_id}}"><i class="fa-sharp fa-solid fa-trash"></i></button>
-                </td>
-                <div class="modal fade" id="myModal{{i.student_id}}" tabindex="-1" aria-labelledby="myModalLabel1"
-                  aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Student Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h3>{{i.full_name}}</h3>
-                        <ul class="list-unstyled">
-                          <li>EduID: <strong>{{i.student_id}}</strong></li>
-                          <li>Email: <strong>{{i.email}}</strong></li>
-                          <li>Major: <strong>{{i.major}}</strong></li>
-                          <li>GPA: <strong>{{i.gpa}}</strong></li>
-                          <li>
-                            Current Degree:
-                            <strong>
-                              {% if i.gpa >= 3.9 %}
-                              Summa Cumlaude
-                              {% elif i.gpa >= 3.7%}
-                              Magna Cumlaude
-                              {% elif i.gpa >= 3.5%}
-                              Cumlaude
-                              {% elif i.gpa >= 3 %}
-                              High Merit
-                              {% elif i.gpa >= 2 %}
-                              Merit
-                              {% elif i.gpa < 0 %} <p style="color: red;">Expelled / Dropped Out</p>
-                                {% else %}
-                                <p style="color: red;">Ineligible to Graduate</p>
-                                {%endif%}
-                            </strong>
-                          </li>
-                          <li>Courses: <strong>
-                              <ul>
-                                {% for j in i.courses.all %}
-                                <li>{{j.course_name}}</li>
-                                {% empty %}
-                                None
-                                {%endfor%}
-                              </ul>
-                            </strong></li>
-                        </ul>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
+        </aside>
+
+        <main>
+            <h1>Attendance</h1>
+            <div class="subjects">
+                <div class="eg">
+                    <span class="material-icons-sharp">architecture</span>
+                    <h3>Engineering Graphics</h3>
+                    <h2>12/14</h2>
+                    <div class="progress">
+                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
+                        <div class="number"><p>86%</p></div>
                     </div>
-                  </div>
+                    <small class="text-muted">Last 24 Hours</small>
                 </div>
-                <div class="modal fade" id="deleteModal{{i.student_id}}" tabindex="-1" aria-labelledby="myModalLabel2"
-                  aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title">Delete <strong>{{i.full_name}}</strong>?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h5>Are you sure to delete this? This can't be <strong>restored</strong>!</h5>
-                        <div class="modal-footer">
-                          <form action="{% url 'delete_student' i.student_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value='Delete'>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                      </div>
+                <div class="mth">
+                    <span class="material-icons-sharp">functions</span>
+                    <h3>Mathematical Engineering</h3>
+                    <h2>27/29</h2>
+                    <div class="progress">
+                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
+                        <div class="number"><p>93%</p></div>
                     </div>
-                  </div>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% else %}
-      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no student in the record. Considering add a student.
-      </div>
-      <a href="{%url 'add_student'%}"><button type="button" class="btn btn-primary">Add
-          Students</button></a>
-      {% endif %}
-    </div>
-    <!-- Teacher Tab  -->
-    <div class="tab-pane fade" id="teachersTab" role="tabpanel">
-      {% if teachers %}
-      <div class="card bg-light mb-3" id="teachersCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>Teachers List</h4>
-          </div>
-          <div class="ml-auto"><a href="{%url 'add_teacher'%}"><button type="button" class="btn btn-primary">Add
-                Teacher</button></a></div>
-        </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">EduTeachID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Courses</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in teachers%}
-              <tr>
-                <td>{{ i.teacher_id}}</td>
-                <td>{{ i.full_name }}</td>
-                <td>{{ i.email }}</td>
-                <td>{% for j in i.courses.all %}
-                  {{j.course_name}},
-                  {%endfor%}
-                </td>
-                <td><button type="button" class="btn btn-info me-1" href="{% url 'view_teacher' i.teacher_id %}"
-                    data-bs-toggle="modal" data-bs-target="#myModalTeacher{{i.teacher_id}}"><i
-                      class="fa-sharp fa-solid fa-circle-info"></i></button>
-                  <a class="btn btn-warning me-1" href="{% url 'edit_teacher' i.teacher_id %}"><i
-                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModalTeacher{{i.teacher_id}}"><i
-                      class="fa-sharp fa-solid fa-trash"></i></button>
-                </td>
-                <div class="modal fade" id="myModalTeacher{{i.teacher_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel10" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Teacher Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h3>{{i.full_name}}</h3>
-                        <ul class="list-unstyled">
-                          <li>EduTeachID: <strong>{{i.teacher_id}}</strong></li>
-                          <li>Email: <strong>{{i.email}}</strong></li>
-                          <li>Courses: <strong>
-                              <ul>
-                                {% for j in i.courses.all %}
-                                <li>{{j.course_name}}</li>
-                                {%endfor%}
-                              </ul>
-                            </strong></li>
-                        </ul>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
-                    </div>
-                  </div>
+                    <small class="text-muted">Last 24 Hours</small>
                 </div>
-                <div class="modal fade" id="deleteModalTeacher{{i.teacher_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel02" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title">Delete <strong>{{i.full_name}}</strong>?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h5>Are you sure to delete this? This can't be <strong>restored</strong>!</h5>
-                        <div class="modal-footer">
-                          <form action="{% url 'delete_teacher' i.teacher_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value='Delete'>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                      </div>
+                <div class="cs">
+                    <span class="material-icons-sharp">computer</span>
+                    <h3>Computer Architecture</h3>
+                    <h2>27/30</h2>
+                    <div class="progress">
+                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
+                        <div class="number"><p>81%</p></div>
                     </div>
-                  </div>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% else %}
-      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no teachers in the record. Considering add a teacher.
-      </div>
-      <a href="{%url 'add_teacher'%}"><button type="button" class="btn btn-primary">Add
-          Students</button></a>
-      {% endif %}
-    </div>
-    <!-- Major Tab  -->
-    <div class="tab-pane fade" id="majorsTab" role="tabpanel">
-      {% if majors %}
-      <div class="card bg-light mb-3" id="majorsCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>Majors List</h4>
-          </div>
-          <div class="ml-auto"><a href="{%url 'add_major'%}"><button type="button" class="btn btn-primary">Add
-                Major</button></a></div>
-        </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">MajorID</th>
-                <th scope="col">Major Name</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in majors%}
-              <tr>
-                <td>{{ i.major_id}}</td>
-                <td>{{ i.major_name }}</td>
-                <td>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModalMajor{{i.major_id}}"><i class="fa-sharp fa-solid fa-trash"></i></button>
-                </td>
-                <div class="modal fade" id="deleteModalMajor{{i.major_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel02" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title">Delete <strong>{{i.major_name}}</strong>?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h5>Are you sure to delete this? This can't be <strong>restored</strong>!</h5>
-                        <div class="modal-footer">
-                          <form action="{% url 'delete_major' i.major_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value='Delete'>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% else %}
-      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no majors in the record. Considering add a major.
-      </div>
-      <a href="{%url 'add_major'%}"><button type="button" class="btn btn-primary">Add
-          Major</button></a>
-      {% endif %}
-    </div>
-    <!-- Course Tab  -->
-    <div class="tab-pane fade" id="coursesTab" role="tabpanel">
-      {% if courses %}
-      <div class="card bg-light mb-3" id="coursesCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>Courses List</h4>
-          </div>
-          <div class="ml-auto"><a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
-                Course</button></a></div>
-        </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">CourseID</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">SCU</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in courses%}
-              <tr>
-                <td>{{ i.course_id}}</td>
-                <td>{{ i.course_name }}</td>
-                <td>{{ i.scu }}</td>
-                <td><button type="button" class="btn btn-info me-1" href="{% url 'view_course' i.course_id %}"
-                    data-bs-toggle="modal" data-bs-target="#myModalCourse{{i.course_id}}"><i
-                      class="fa-sharp fa-solid fa-circle-info"></i></button>
-                  <a class="btn btn-warning me-1" href="{% url 'edit_course' i.course_id %}"><i
-                      class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModalCourse{{i.course_id}}"><i
-                      class="fa-sharp fa-solid fa-trash"></i></button>
-                </td>
-                <div class="modal fade" id="myModalCourse{{i.course_id}}" tabindex="-1" aria-labelledby="myModalLabel10"
-                  aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Course Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h3>{{i.course_name}}</h3>
-                        <ul class="list-unstyled">
-                          <li>CourseID: <strong>{{i.course_id}}</strong></li>
-                          <li>SCU: <strong>{{i.scu}}</strong></li>
-                          <li>Semester: <strong>{{i.sem}}</strong></li>
-                          <li>Total Session Available: <strong>
-                              {{i.scu}}
-                            </strong></li>
-                        </ul>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
-                    </div>
-                  </div>
+                    <small class="text-muted">Last 24 Hours</small>
                 </div>
-                <div class="modal fade" id="deleteModalCourse{{i.course_id}}" tabindex="-1"
-                  aria-labelledby="myModalLabel02" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title">Delete <strong>{{i.course_name}}</strong>?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"></span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h5>Are you sure to delete this? This can't be <strong>restored</strong>!</h5>
-                        <div class="modal-footer">
-                          <form action="{% url 'delete_course' i.course_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="btn btn-primary" value='Delete'>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        </div>
-                      </div>
+                <div class="cg">
+                    <span class="material-icons-sharp">dns</span>
+                    <h3>Database Management</h3>
+                    <h2>24/25</h2>
+                    <div class="progress">
+                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
+                        <div class="number"><p>96%</p></div>
                     </div>
-                  </div>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
+                    <small class="text-muted">Last 24 Hours</small>
+                </div>
+                <div class="net">
+                    <span class="material-icons-sharp">router</span>
+                    <h3>Network Security</h3>
+                    <h2>25/27</h2>
+                    <div class="progress">
+                        <svg><circle cx="38" cy="38" r="36"></circle></svg>
+                        <div class="number"><p>92%</p></div>
+                    </div>
+                    <small class="text-muted">Last 24 Hours</small>
+                </div>
+            </div>
+
+            <div class="timetable" id="timetable">
+                <div>
+                    <span id="prevDay">&lt;</span>
+                    <h2>Today's Timetable</h2>
+                    <span id="nextDay">&gt;</span>
+                </div>
+                <span class="closeBtn" onclick="timeTableAll()">X</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Room No.</th>
+                            <th>Subject</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </main>
+
+        <div class="right">
+            <div class="announcements">
+                <h2>Announcements</h2>
+                <div class="updates">
+                    <div class="message">
+                        <p> <b>Academic</b> Summer training internship with Live Projects.</p>
+                        <small class="text-muted">2 Minutes Ago</small>
+                    </div>
+                    <div class="message">
+                        <p> <b>Co-curricular</b> Global internship oportunity by Student organization.</p>
+                        <small class="text-muted">10 Minutes Ago</small>
+                    </div>
+                    <div class="message">
+                        <p> <b>Examination</b> Instructions for Mid Term Examination.</p>
+                        <small class="text-muted">Yesterday</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaves">
+                <h2>Teachers on leave</h2>
+                <div class="teacher">
+                    <div class="profile-photo"><img src="./images/profile-2.jpeg" alt=""></div>
+                    <div class="info">
+                        <h3>The Professor</h3>
+                        <small class="text-muted">Full Day</small>
+                    </div>
+                </div>
+                <div class="teacher">
+                    <div class="profile-photo"><img src="./images/profile-3.jpg" alt=""></div>
+                    <div class="info">
+                        <h3>Lisa Manobal</h3>
+                        <small class="text-muted">Half Day</small>
+                    </div>
+                </div>
+                <div class="teacher">
+                    <div class="profile-photo"><img src="./images/profile-4.jpg" alt=""></div>
+                    <div class="info">
+                        <h3>Himanshu Jindal</h3>
+                        <small class="text-muted">Full Day</small>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      {% else %}
-      <div class="alert alert-dismissible alert-danger" style="width: 35rem;">
-        <strong>Oh snap!</strong> There is no courses in the record. Considering add a course.
-      </div>
-      <a href="{%url 'add_course'%}"><button type="button" class="btn btn-primary">Add
-          Course</button></a>
-      {% endif %}
     </div>
-    <!-- Enrollment Tab  -->
-    <div class="tab-pane fade" id="scuTab" role="tabpanel">
-      {% if SCU %}
-      <div class="card bg-light mb-3" id="scuCard">
-        <div class="card-header d-flex justify-content-between">
-          <div>
-            <h4>SCU List</h4>
-          </div>
-        <div class="card-body">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">SCU</th>
-                <th scope="col">Total Sections</th>
-                <th scope="col">Maximum Absence</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in SCU%}
-              <tr>
-                <td>{{ i.scu}}</td>
-                <td>{{ i.TotalSec }}</td>
-                <td>{{ i.MaxAbs }}</td>
-              </tr>
-              {%endfor%}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {% endif %}
-    </div>
-  </div>
-</div>
-{%endblock%}
+
+    <script src="timeTable.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -11,21 +11,24 @@ from django.db.models import Q
 from .models import *
 from .forms import CourseForm, MajorForm, StudentForm, StudentLoginForm, TeacherForm
 
-def index(request):
-    return render(request, 'students/index.html', {
-        'user' : request.user.is_authenticated,
-        'students': Student.objects.all(),
+def admindashboard(request):
+    return render(request, 'students/admindashboard.html', {
+        'user' : request.user.is_authenticated, 
+        'students': Student.objects.all(), ## Select * From Student
         'teachers': Teacher.objects.all(),
         'majors':Major.objects.all(),
         'courses':Course.objects.all(),
         'SCU' : SCU.objects.all()
     })
 
+def index(request):
+    return render(request, 'students/index.html')
+
 # Student Data
 
 def view_student(request, student_id):
-    student = Student.objects.get(pk = student_id)
-    return HttpResponseRedirect(reverse('index'))
+    student = Student.objects.get(pk = student_id) ## Select * from Student where primary key = student
+    return HttpResponseRedirect(reverse('admindashboard'))
 
 def add_student(request):
     if request.method == 'POST':
@@ -68,7 +71,7 @@ def delete_student(request, student_id):
     if request.method == 'POST':
         student = Student.objects.get(pk=student_id)
         student.delete()
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("admindashboard"))
 
 def get_student_search(request):
     query = request.GET.get("q")
@@ -77,7 +80,7 @@ def get_student_search(request):
         Q(full_name__icontains = query)
     )
 
-    return render(request, 'students/index.html', {
+    return render(request, 'students/admindashboard.html', {
         'user' : request.user.is_authenticated,
         'students': student,
         'teachers': Teacher.objects.all(),
@@ -90,7 +93,7 @@ def get_student_search(request):
 
 def view_teacher(request, teacher_id):
     teacher = Teacher.objects.get(pk = teacher_id)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('admindashboard'))
 
 def add_teacher(request):
     if request.method == 'POST':
@@ -134,7 +137,7 @@ def delete_teacher(request, teacher_id):
     if request.method == 'POST':
         teacher = Teacher.objects.get(pk=teacher_id)
         teacher.delete()
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("admindashboard"))
 
 ## Major
 def add_major(request):
@@ -168,12 +171,12 @@ def delete_major(request, major_id):
     if request.method == 'POST':
         major = Major.objects.get(pk = major_id)
         major.delete()
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("admindashboard"))
 
 ## Course
 def view_course(request, course_id):
     course = Course.objects.get(pk = course_id)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('admindashboard'))
    
 def edit_course(request, course_id):
     if request.method == 'POST':
@@ -227,7 +230,7 @@ def delete_course(request, course_id):
     if request.method == 'POST':
         course = Course.objects.get(pk=course_id)
         course.delete()
-    return HttpResponseRedirect(reverse("index")) 
+    return HttpResponseRedirect(reverse("admindashboard")) 
 
 def student_view_course(request, email, password):
     # Assuming you have a user object and the associated student object
