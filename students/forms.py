@@ -81,5 +81,5 @@ class CourseForm(forms.ModelForm):
         }
 
 class StudentLoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(label="")
+    email = forms.EmailField() ## Input email
+    password = forms.CharField(label="") ## Input password

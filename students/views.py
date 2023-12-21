@@ -21,9 +21,6 @@ def admindashboard(request):
         'SCU' : SCU.objects.all()
     })
 
-def index(request):
-    return render(request, 'students/index.html')
-
 # Student Data
 
 def view_student(request, student_id):
@@ -267,8 +264,8 @@ def login_student(request):
     if request.method == 'POST':
         form = StudentLoginForm(request.POST)
         form.is_valid()
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
+        email = form.cleaned_data['email'] ##Retrieve Data email
+        password = form.cleaned_data['password'] ## Retrieve Data Password
         try:
             Student.objects.get(email = email, password = password).courses.all
         except:
@@ -286,7 +283,20 @@ def login_student(request):
         'form': StudentLoginForm()
     })
 
+## Student Dashboard
 
+def index(request):
+    return render(request, 'students/index.html')
+
+def view_timetable(request):
+    return render(request, 'students/timetable.html')
+
+def view_change_password(request):
+    return render(request, 'students/password.html')
+
+def view_exam(request):
+    return render(request, 'students/exam.html')
+    
 # def dummy_login(request):
 #     # Dummy login logic
 #     user = authenticate(request)

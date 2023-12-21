@@ -7,7 +7,6 @@ urlpatterns = [
     path('student/login', views.login_student, name = 'student_login'),
     path('admin/dashboard', views.admindashboard, name = 'admin_dashboard'),
     path('admin/dashboard/search', views.get_student_search, name = 'get_student_search'),
-    path('home', views.index, name = 'index'),
     #Student Views
     path('<int:student_id>', views.view_student, name = 'view_student'),
     path('admin/add_student/', views.add_student, name = 'add_student'),
@@ -28,6 +27,9 @@ urlpatterns = [
     path('admin/delete_course/<int:course_id>/', views.delete_course, name = 'delete_course'),
     #Classroom_Course
     path('student_view_course/', views.student_view_course, name = 'student_view_course'),
-    # path('dummy_login/', views.dummy_login, name='dummy_login'),
-
+    # Student Dashboard
+    path('student/dashboard', views.index, name = 'student_dashboard'),
+    path('student/timetable', views.view_timetable, name = 'student_timetable'),
+    path('student/exam', views.view_exam, name = 'student_exam'),
+    path('student/changepass', views.view_change_password, name = 'student_change_password'),
     ]
